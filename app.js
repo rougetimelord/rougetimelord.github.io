@@ -62,15 +62,6 @@ var song = function () {
         document.body.removeEventListener("click", mobStart);
     }
     document.body.addEventListener("click", mobStart);
-    if(window.mobilecheck()){
-      if (document.body.fireEvent) {
-        documen.body.fireEvent('on' + "click");
-      } else {
-        var evObj = document.createEvent('Events');
-        evObj.initEvent("click", true, false);
-        document.body.dispatchEvent(evObj);
-      }
-    }
     changeSong();
 }
 
