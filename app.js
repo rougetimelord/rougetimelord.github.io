@@ -37,7 +37,6 @@ var runStar = function () {
     starfield.start();
 }
 
-
 var song = function () {
     var i = 0, songs = ["never-met", "still-high", "dark", "fuck-boy"];
     var player = document.getElementById('player');
@@ -63,6 +62,15 @@ var song = function () {
         document.removeEventListener("click", mobStart);
     }
     document.addEventListener("click", mobStart);
+    if(window.mobilecheck()){
+      if (plyer.fireEvent) {
+        player.fireEvent('on' + "click");
+      } else {
+        var evObj = document.createEvent('Events');
+        evObj.initEvent("click", true, false);
+        player.dispatchEvent(evObj);
+      }
+    }
     changeSong();
 }
 
