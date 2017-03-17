@@ -64,7 +64,7 @@ var song = function () {
     document.body.addEventListener("click", mobStart);
     if(window.mobilecheck()){
       if (document.body.fireEvent) {
-        player.fireEvent('on' + "click");
+        documen.body.fireEvent('on' + "click");
       } else {
         var evObj = document.createEvent('Events');
         evObj.initEvent("click", true, false);
