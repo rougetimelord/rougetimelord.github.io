@@ -49,6 +49,12 @@ var song = function () {
             setTimeout(changeSong, dur);
         });
     }
+    var mobStart = function () {
+        player.play();
+        changeSong();
+        document.removeEventListener("touch", mobStart);
+    }
+    document.addEventListener("touch", mobStart);
     changeSong();
 }
 
