@@ -4,7 +4,7 @@ var swap = function (res) {
     req.timeout = 4000;
     req.onload = function () {
         if (req.status == 200 || req.status == 304) {
-            document.body.innerHTML = req.responseText;
+            document.getElementsByClassName('main')[0] = req.responseText;
             addXHR();
         } else { console.log(req.status); }
     }
