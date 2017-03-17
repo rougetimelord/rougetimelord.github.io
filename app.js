@@ -33,15 +33,18 @@ var runStar = function () {
 
 
 var song = function () {
-    var i = 0, songs = ["never-met", "still-high"], player = document.getElementById('player');
-    var changeSong = function(){
-        if (i > songs.length - 1)
-            i = 0;
+    var i = 0, songs = ["never-met", "still-high", "dark", "fuck-boy"];
+    var player = document.getElementById('player');
+    var changeSong = function () {
+        var temp = -1;
+        while (temp !== i && temp <= 0) {
+            temp = Math.floor(Math.random() * songs.length);
+        }
+        i = temp;
         player.src = "./Content/" + songs[i] + ".mp3";
         player.load();
         player.addEventListener("loadeddata", function () {
             dur = Math.floor(this.duration * 1000);
-            i++;
             player.play();
             setTimeout(changeSong, dur);
         });
