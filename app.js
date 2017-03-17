@@ -59,16 +59,16 @@ var song = function () {
             player.play();
             changeSong();
         }
-        document.removeEventListener("click", mobStart);
+        document.body.removeEventListener("click", mobStart);
     }
-    document.addEventListener("click", mobStart);
+    document.body.addEventListener("click", mobStart);
     if(window.mobilecheck()){
-      if (plyer.fireEvent) {
+      if (document.body.fireEvent) {
         player.fireEvent('on' + "click");
       } else {
         var evObj = document.createEvent('Events');
         evObj.initEvent("click", true, false);
-        player.dispatchEvent(evObj);
+        document.body.dispatchEvent(evObj);
       }
     }
     changeSong();
