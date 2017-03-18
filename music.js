@@ -37,7 +37,6 @@ var song = function () {
         // connect to destination, else it isn't called
         javascriptNode.connect(context.destination);
         // setup analyser
-        loadSounds();
         analyser = context.createAnalyser();
         analyser.smoothingTimeConstant = 0.3;
         analyser.fftSize = 1024;
