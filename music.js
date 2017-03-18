@@ -52,7 +52,7 @@ var song = function () {
 
     var makeReqObj = function (url) {
         var request = new XMLHttpRequest();
-        request.open('GET', url, true);
+        request.open('GET', url, false);
         request.responseType = 'arraybuffer';
         // When loaded decode the data
         request.onload = function () {
