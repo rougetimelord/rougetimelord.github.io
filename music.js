@@ -57,7 +57,7 @@ var song = function () {
         _.request.responseType = 'arraybuffer';
         // When loaded decode the data
         _.request.onload = function () {
-            console.log(_.request.response);
+            console.log(url, _.request.response);
             // decode the data
             //context.decodeAudioData(_.request.response, function (buffer) {
             // when the audio is decoded play the sound
