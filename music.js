@@ -50,19 +50,19 @@ var song = function () {
         }
     }
 
-    var makeReqObj = function (url) {
-        var request = new XMLHttpRequest();
-        request.open('GET', url, false);
-        request.responseType = 'arraybuffer';
+    function makeReqObj(url) {
+        this.request = new XMLHttpRequest();
+        this.request.open('GET', url, false);
+        this.request.responseType = 'arraybuffer';
         // When loaded decode the data
-        request.onload = function () {
+        this.request.onload = function () {
             // decode the data
             context.decodeAudioData(request.response, function (buffer) {
                 // when the audio is decoded play the sound
                 song_buffers.push(buffer);
             }, onError);
         }
-        request.send();
+        this.request.send();
     }
 
     function playSound(buffer) {
