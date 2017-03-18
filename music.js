@@ -18,6 +18,7 @@ var song = function () {
         i = temp;
         song_name = songs[i];
         if (loaded.indexOf(song_name) == -1) {
+            loaded.push(song_name);
             url = "./Content/" + songs[i] + ".mp3";
             new makeReqObj(url);
         }
