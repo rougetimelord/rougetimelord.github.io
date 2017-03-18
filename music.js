@@ -16,7 +16,7 @@ var song = function () {
             temp = Math.floor(Math.random() * songs.length);
         }
         i = temp;
-        playSound(song_buffers[i])
+        playSound(song_buffers[i]);
     }
     // load the sound
     setupAudioNodes();
@@ -45,15 +45,17 @@ var song = function () {
     // load the specified sound
     function loadSounds() {
         for (var i = 0; i < songs.length; i++) {
-            src = "./Content/" + songs[i] + ".mp3";
+            url = "./Content/" + songs[i] + ".mp3";
             var request = new XMLHttpRequest();
-            request.open('GET', src, true);
+            request.open('GET', url, true);
             request.responseType = 'arraybuffer';
+ 
             // When loaded decode the data
-            request.onload = function () {
+            request.onload = function() {
+ 
                 // decode the data
-                context.decodeAudioData(request.response, function (buffer) {
-                    // Load buffer into array
+                context.decodeAudioData(request.response, function(buffer) {
+                    // when the audio is decoded play the sound
                     song_buffers.push(buffer);
                 }, onError);
             }
