@@ -46,19 +46,23 @@ var song = function () {
     function loadSounds() {
         for (var i = 0; i < songs.length; i++) {
             url = "./Content/" + songs[i] + ".mp3";
-            var request = new XMLHttpRequest();
-            request.open('GET', url, false);
-            request.responseType = 'arraybuffer';
-            // When loaded decode the data
-            request.onload = function() {
-                // decode the data
-                context.decodeAudioData(request.response, function(buffer) {
-                    // when the audio is decoded play the sound
-                    song_buffers.push(buffer);
-                }, onError);
-            }
-            request.send();
+            new makeReqObj(url);
         }
+    }
+
+    var makeReqObj = function (url) {
+        var request = new XMLHttpRequest();
+        request.open('GET', url, true);
+        request.responseType = 'arraybuffer';
+        // When loaded decode the data
+        request.onload = function () {
+            // decode the data
+            context.decodeAudioData(request.response, function (buffer) {
+                // when the audio is decoded play the sound
+                song_buffers.push(buffer);
+            }, onError);
+        }
+        request.send();
     }
 
     function playSound(buffer) {
