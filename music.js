@@ -8,7 +8,7 @@ var song = function () {
 
     var context = new AudioContext();
     var audioBuffer, sourceNode, analyser, javascriptNode;
-    var i = 0, songs = ["never-met", "still-high", "dark", "fuck-boy"];
+    var i = 0, songs = ["never-met", "still-high", "dark", "fuck-boy"], loaded = [];
     var song_buffers = [];
     var changeSong = function () {
         var temp = -1;
@@ -16,7 +16,15 @@ var song = function () {
             temp = Math.floor(Math.random() * songs.length);
         }
         i = temp;
-        playSound(song_buffers[i]);
+        song_name = songs[i];
+        if (loaded.indexOf(song_name) == -1) {
+            url = "./Content/" + songs[i] + ".mp3";
+            new makeReqObj(url);
+        }
+        else {
+            i = loaded.indexOf(song_name);
+            playSound(song_buffers[i])
+        }
     }
     // load the sound
     setupAudioNodes();
@@ -39,15 +47,8 @@ var song = function () {
         analyser.connect(javascriptNode);
         // and connect to destination
         sourceNode.connect(context.destination);
-        // load all songs
-    }
-
-    // load the specified sound
-    function loadSounds() {
-        for (var i = 0; i < songs.length; i++) {
-            url = "./Content/" + songs[i] + ".mp3";
-            new makeReqObj(url);
-        }
+        // start loop
+        changeSong();
     }
 
     function makeReqObj(url) {
@@ -59,9 +60,11 @@ var song = function () {
         _.request.onload = function () {
             console.log(url, _.request.response);
             // decode the data
-            //context.decodeAudioData(_.request.response, function (buffer) {
-            // when the audio is decoded play the sound
-            //song_buffers.push(buffer);
+            context.decodeAudioData(_.request.response, function (buffer) {
+                // when the audio is decoded play the sound
+                song_buffers.push(buffer);
+                playSound(buffer);
+            })
         };
         this.request.send();
     }
