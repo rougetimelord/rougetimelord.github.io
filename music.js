@@ -8,7 +8,7 @@ var song = function () {
 
     var context = new AudioContext();
     var audioBuffer, sourceNode, analyser, javascriptNode;
-    var i = 0, songs = ["never-met", "still-high", "dark", "fuck-boy"];
+    var i = 0, songs = ["never-met", "still-high", "dark", "fuck-boy"], loaded = [];
     var song_buffers = [];
     var changeSong = function () {
         var temp = -1;
@@ -16,7 +16,15 @@ var song = function () {
             temp = Math.floor(Math.random() * songs.length);
         }
         i = temp;
-        playSound(song_buffers[i])
+        song_name = songs[i];
+        if (loaded.indexOf(song_name) == -1) {
+            url = "./Content/" + songs[i] + ".mp3";
+            new makeReqObj(url);
+        }
+        else {
+            i = loaded.indexOf(song_name);
+            playSound(song_buffers[i])
+        }
     }
     // load the sound
     setupAudioNodes();
@@ -29,7 +37,6 @@ var song = function () {
         // connect to destination, else it isn't called
         javascriptNode.connect(context.destination);
         // setup analyser
-        loadSounds();
         analyser = context.createAnalyser();
         analyser.smoothingTimeConstant = 0.3;
         analyser.fftSize = 1024;
@@ -39,26 +46,26 @@ var song = function () {
         analyser.connect(javascriptNode);
         // and connect to destination
         sourceNode.connect(context.destination);
-        // load all songs
+        // start loop
+        changeSong();
     }
 
-    // load the specified sound
-    function loadSounds() {
-        for (var i = 0; i < songs.length; i++) {
-            src = "./Content/" + songs[i] + ".mp3";
-            var request = new XMLHttpRequest();
-            request.open('GET', src, true);
-            request.responseType = 'arraybuffer';
-            // When loaded decode the data
-            request.onload = function () {
-                // decode the data
-                context.decodeAudioData(request.response, function (buffer) {
-                    // Load buffer into array
-                    song_buffers.push(buffer);
-                }, onError);
-            }
-            request.send();
-        }
+    function makeReqObj(url) {
+        _ = this;
+        _.request = new XMLHttpRequest();
+        _.request.open('GET', url, true);
+        _.request.responseType = 'arraybuffer';
+        // When loaded decode the data
+        _.request.onload = function () {
+            console.log(url, _.request.response);
+            // decode the data
+            context.decodeAudioData(_.request.response, function (buffer) {
+                // when the audio is decoded play the sound
+                song_buffers.push(buffer);
+                playSound(buffer);
+            })
+        };
+        this.request.send();
     }
 
     function playSound(buffer) {
