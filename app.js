@@ -78,10 +78,10 @@ var song = function () {
     // load the specified sound
     function loadSounds() {
         for (var i = 0; i < songs.length; i++) {
-            var request = new XMLHttpRequest();
-            request.open('GET', url, true);
-            request.responseType = 'arraybuffer';
             src = "./Content/" + songs[i] + ".mp3";
+            var request = new XMLHttpRequest();
+            request.open('GET', src, true);
+            request.responseType = 'arraybuffer';
             // When loaded decode the data
             request.onload = function () {
                 // decode the data
