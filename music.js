@@ -9,7 +9,7 @@ var song = function () {
     var context = new AudioContext();
     var audioBuffer, sourceNode, analyser, javascriptNode;
     var i = 0, songs = ["never-met", "still-high", "dark", "fuck-boy"], loaded = [];
-    var song_buffers = [];
+    var sources = [];
     var changeSong = function () {
         var temp = -1;
         while (temp !== i && temp <= 0) {
@@ -23,15 +23,13 @@ var song = function () {
         }
         else {
             i = loaded.indexOf(song_name);
-            playSound(song_buffers[i])
+            playSound(sources[i])
         }
     }
     // load the sound
     setupAudioNodes();
 
     function setupAudioNodes() {
-        // create a buffer source node
-        sourceNode = context.createBufferSource();
         // setup a javascript node
         javascriptNode = context.createScriptProcessor(2048, 1, 1);
         // connect to destination, else it isn't called
@@ -40,12 +38,8 @@ var song = function () {
         analyser = context.createAnalyser();
         analyser.smoothingTimeConstant = 0.3;
         analyser.fftSize = 1024;
-        // connect stuff
-        sourceNode.connect(analyser);
         // we use the javascript node to draw at a specific interval.
         analyser.connect(javascriptNode);
-        // and connect to destination
-        sourceNode.connect(context.destination);
         // start loop
         changeSong();
     }
@@ -61,17 +55,20 @@ var song = function () {
             // decode the data
             context.decodeAudioData(_.request.response, function (buffer) {
                 // when the audio is decoded play the sound
-                song_buffers.push(buffer);
-                playSound(buffer);
+                this.source = context.createBufferSource();
+                this.source.connect(analyser);
+                this.source.connect(context.destination);
+                this.source.buffer = buffer;
+                sources.push(this.source);
+                playSound(this.source);
             })
         };
-        this.request.send();
+        _.request.send();
     }
 
-    function playSound(buffer) {
-        sourceNode.buffer = buffer;
-        var duration = Math.floor(buffer.duration * 1000);
-        sourceNode.start(0);
+    function playSound(source) {
+        var duration = Math.floor(source.buffer.duration * 1000);
+        source.start(0);
         setTimeout(changeSong, duration);
     }
 
