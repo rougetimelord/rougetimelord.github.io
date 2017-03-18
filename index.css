@@ -3,6 +3,13 @@ body{
     font-family: 'Roboto', sans-serif;
     overflow: hidden;
 }
+.react{
+    color: #bbb;
+    transition: color .1s linear;
+}
+.react.light{
+    color: #ddd !important;
+}
 .main{
     text-align: left;
     color: #bbb;
