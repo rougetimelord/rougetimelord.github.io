@@ -51,13 +51,14 @@ var song = function () {
     }
 
     function makeReqObj(url) {
-        this.request = new XMLHttpRequest();
-        this.request.open('GET', url, true);
-        this.request.responseType = 'arraybuffer';
+        _ = this;
+        _.request = new XMLHttpRequest();
+        _.request.open('GET', url, true);
+        _.request.responseType = 'arraybuffer';
         // When loaded decode the data
-        this.request.onload = function () {
+        _.request.onload = function () {
             // decode the data
-            context.decodeAudioData(this.request.response, function (buffer) {
+            context.decodeAudioData(_.request.response, function (buffer) {
                 // when the audio is decoded play the sound
                 song_buffers.push(buffer);
             }, onError);
