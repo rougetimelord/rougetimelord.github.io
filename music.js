@@ -24,7 +24,7 @@ var song = function () {
         }
         else {
             var i = loaded.indexOf(song_name);
-            new playSound(sources[i])
+            new playSound(buffers[i])
         }
     }
     // load the sound
@@ -56,7 +56,7 @@ var song = function () {
             // decode the data
             context.decodeAudioData(_.request.response, function (buffer) {
                 // when the audio is decoded play the sound
-                sources.push(buffer);
+                buffers.push(buffer);
                 playSound(buffer);
             })
         };
