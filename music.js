@@ -8,23 +8,23 @@ var song = function () {
 
     var context = new AudioContext();
     var audioBuffer, sourceNode, analyser, javascriptNode;
-    var i = 0, songs = ["never-met", "still-high", "dark", "fuck-boy"], loaded = [];
-    var sources = [];
+    var song_ind = 0, songs = ["never-met", "still-high", "dark", "fuck-boy"], loaded = [];
+    var buffers = [];
     var changeSong = function () {
         var temp = -1;
-        while (temp !== i && temp <= 0) {
+        while (temp !== song_ind && temp <= 0) {
             temp = Math.floor(Math.random() * songs.length);
         }
-        i = temp;
-        song_name = songs[i];
+        song_ind = temp;
+        song_name = songs[song_ind];
         if (loaded.indexOf(song_name) == -1) {
             loaded.push(song_name);
-            url = "./Content/" + songs[i] + ".mp3";
+            url = "./Content/" + song_name + ".mp3";
             new makeReqObj(url);
         }
         else {
-            i = loaded.indexOf(song_name);
-            playSound(sources[i])
+            var i = loaded.indexOf(song_name);
+            new playSound(sources[i])
         }
     }
     // load the sound
@@ -56,21 +56,21 @@ var song = function () {
             // decode the data
             context.decodeAudioData(_.request.response, function (buffer) {
                 // when the audio is decoded play the sound
-                this.source = context.createBufferSource();
-                this.source.connect(analyser);
-                this.source.connect(context.destination);
-                this.source.buffer = buffer;
-                sources.push(this.source);
-                playSound(this.source);
+                sources.push(buffer);
+                playSound(buffer);
             })
         };
         _.request.send();
     }
 
-    function playSound(source) {
-        var duration = Math.floor(source.buffer.duration * 1000);
+    function playSound(buffer) {
+        this.duration = Math.floor(buffer.duration * 1000);
+        this.source = context.createBufferSource();
+        this.source.connect(analyser);
+        this.source.connect(context.destination);
+        this.source.buffer = buffer;
         source.start(0);
-        setTimeout(changeSong, duration);
+        setTimeout(changeSong, this.duration);
     }
 
     javascriptNode.onaudioprocess = function () {
