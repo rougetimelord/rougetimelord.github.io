@@ -75,10 +75,10 @@ var song = function () {
             // decode the data
             context.decodeAudioData(_.request.response, function (buffer) {
                 // when the audio is decoded play the sound
-                buffers.push(this.buffer);
+                buffers.push(buffer);
                 if (firstReq) {
                     firstReq = false;
-                    playSound(this.buffer)
+                    playSound(buffer)
                 }
                 if(sources.length < songs.length)
                     loadNext();
