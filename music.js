@@ -9,9 +9,10 @@ var song = function () {
     var context = new AudioContext();
     var audioBuffer, sourceNode, analyser, javascriptNode;
     var song_ind = 0, songs = ["never-met", "still-high", "dark", "fuck-boy"], loaded = [];
-    var buffers = [];
+    var sources = [];
     var changeSong = function () {
         var temp = -1;
+        while (temp == song_ind || temp <= 0) {
             temp = Math.floor(Math.random() * songs.length);
         }
         song_ind = temp;
@@ -22,7 +23,7 @@ var song = function () {
         }
         else {
             var i = loaded.indexOf(song_name);
-            new playSound(buffers[i])
+            new playSound(sources[i])
         }
     }
     var loadCurr = 0;
