@@ -75,11 +75,11 @@ var song = function () {
             // decode the data
             context.decodeAudioData(_.request.response, function (buffer) {
                 // when the audio is decoded play the sound
-                buffers.push(buffer);
                 if (firstReq) {
                     firstReq = false;
                     playSound(buffer)
                 }
+                buffers.push(buffer);
                 if(buffers.length < songs.length)
                     loadNext();
             })
@@ -92,7 +92,7 @@ var song = function () {
         this.source.connect(analyser);
         this.source.connect(context.destination);
         this.source.buffer = buffer;
-        this.duration = Math.floor(buffer.duration * 1000);
+        this.duration = Math.floor(this.source.duration * 1000);
         source.start(0);
         setTimeout(changeSong, this.duration);
     }
