@@ -12,22 +12,23 @@ var song = function () {
     var buffers = [];
     var changeSong = function () {
         var temp = -1;
-        while (temp !== song_ind && temp <= 0) {
             temp = Math.floor(Math.random() * songs.length);
         }
         song_ind = temp;
         song_name = songs[song_ind];
         if (loaded.indexOf(song_name) == -1) {
-            load(i);
+            console.log(song_ind);
+            load(song_ind);
         }
         else {
             var i = loaded.indexOf(song_name);
             new playSound(buffers[i])
         }
     }
-    var loadCurr;
+    var loadCurr = 0;
 
     var load = function (i) {
+        console.log(i);
         url = "./Content/" + songs[i] + ".mp3";
         loadCurr = i;
         new makeReqObj(url);
