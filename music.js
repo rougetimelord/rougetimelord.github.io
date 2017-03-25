@@ -9,7 +9,7 @@ var song = function () {
     var context = new AudioContext();
     var audioBuffer, sourceNode, analyser, javascriptNode;
     var song_ind = 0, songs = ["never-met", "still-high", "dark", "fuck-boy"], loaded = [];
-    var sources = [];
+    var buffers = [];
     var changeSong = function () {
         var temp = -1;
         while (temp == song_ind || temp <= 0) {
@@ -18,18 +18,16 @@ var song = function () {
         song_ind = temp;
         song_name = songs[song_ind];
         if (loaded.indexOf(song_name) == -1) {
-            console.log(song_ind);
             load(song_ind);
         }
         else {
             var i = loaded.indexOf(song_name);
-            new playSound(sources[i])
+            new playSound(buffers[i])
         }
     }
     var loadCurr = 0;
 
     var load = function (i) {
-        console.log(i);
         url = "./Content/" + songs[i] + ".mp3";
         loadCurr = i;
         new makeReqObj(url);
@@ -77,14 +75,10 @@ var song = function () {
             // decode the data
             context.decodeAudioData(_.request.response, function (buffer) {
                 // when the audio is decoded play the sound
-                this.source = context.createBufferSource();
-                this.source.connect(analyser);
-                this.source.connect(context.destination);
-                this.source.buffer = buffer;
-                sources.push(this.source);
+                buffers.push(this.buffer);
                 if (firstReq) {
                     firstReq = false;
-                    playSound(this.source)
+                    playSound(this.buffer)
                 }
                 if(sources.length < songs.length)
                     loadNext();
@@ -94,11 +88,11 @@ var song = function () {
     }
 
     function playSound(buffer) {
-        this.duration = Math.floor(buffer.duration * 1000);
         this.source = context.createBufferSource();
         this.source.connect(analyser);
         this.source.connect(context.destination);
         this.source.buffer = buffer;
+        this.duration = Math.floor(buffer.duration * 1000);
         source.start(0);
         setTimeout(changeSong, this.duration);
     }
