@@ -30,6 +30,7 @@ var song = function () {
     var load = function (i) {
         url = "./Content/" + songs[i] + ".mp3";
         loadCurr = i;
+        loaded.push(songs[i]);
         new makeReqObj(url);
     }
 
