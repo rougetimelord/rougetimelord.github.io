@@ -16,7 +16,6 @@ var song = function () {
             temp = Math.floor(Math.random() * songs.length);
         }
         song_ind = temp;
-        song_name = songs[song_ind];
         if (firstReq) {
             load(song_ind);
         }
@@ -29,7 +28,6 @@ var song = function () {
     var load = function (i) {
         url = "./Content/" + songs[i] + ".mp3";
         loadCurr = i;
-        loaded.push(songs[i]);
         new makeReqObj(url);
     }
 
