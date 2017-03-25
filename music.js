@@ -80,7 +80,7 @@ var song = function () {
                     firstReq = false;
                     playSound(buffer)
                 }
-                if(sources.length < songs.length)
+                if(buffers.length < songs.length)
                     loadNext();
             })
         };
