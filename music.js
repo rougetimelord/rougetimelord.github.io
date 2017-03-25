@@ -8,7 +8,7 @@ var song = function () {
 
     var context = new AudioContext();
     var audioBuffer, sourceNode, analyser, javascriptNode;
-    var song_ind = 0, songs = ["never-met", "still-high", "dark", "fuck-boy"], loaded = [];
+    var song_ind = 0, songs = ["never-met", "still-high", "dark", "fuck-boy"], firstReq = true;
     var buffers = [];
     var changeSong = function () {
         var temp = -1;
@@ -17,12 +17,11 @@ var song = function () {
         }
         song_ind = temp;
         song_name = songs[song_ind];
-        if (loaded.indexOf(song_name) == -1) {
+        if (firstReq) {
             load(song_ind);
         }
         else {
-            var i = loaded.indexOf(song_name);
-            new playSound(buffers[i])
+            new playSound(buffers[song_ind])
         }
     }
     var loadCurr = 0;
@@ -62,8 +61,6 @@ var song = function () {
         // start loop
         changeSong();
     }
-
-    var firstReq = true;
 
     function makeReqObj(url) {
         _ = this;
