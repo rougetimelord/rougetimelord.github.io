@@ -18,14 +18,32 @@ var song = function () {
         i = temp;
         song_name = songs[i];
         if (loaded.indexOf(song_name) == -1) {
-            url = "./Content/" + songs[i] + ".mp3";
-            new makeReqObj(url);
+            load(i);
         }
         else {
             i = loaded.indexOf(song_name);
             playSound(sources[i])
         }
     }
+    var loadCurr;
+
+    var load = function (i) {
+        url = "./Content/" + songs[i] + ".mp3";
+        loadCurr = i;
+        new makeReqObj(url);
+    }
+
+    var loadNext = function () {
+        loadCurr++;
+        if (loadCurr < songs.length) {
+            load(loadCurr);
+        }
+        else {
+            loadCurr = 0;
+            load(loadCurr);
+        }
+    }
+
     // load the sound
     setupAudioNodes();
 
@@ -44,6 +62,8 @@ var song = function () {
         changeSong();
     }
 
+    var firstReq = true;
+
     function makeReqObj(url) {
         _ = this;
         _.request = new XMLHttpRequest();
@@ -60,7 +80,12 @@ var song = function () {
                 this.source.connect(context.destination);
                 this.source.buffer = buffer;
                 sources.push(this.source);
-                playSound(this.source);
+                if (firstReq) {
+                    firstReq = false;
+                    playSound(this.source)
+                }
+                if(sources.length < songs.length)
+                    loadNext();
             })
         };
         _.request.send();
