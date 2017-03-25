@@ -24,6 +24,13 @@ body{
     font-size: 5em;
     color: #fff;
 }
+.glitch{
+  color:white;
+  font-size: 5em;
+  position:relative;
+  width:300px;
+  margin:0 auto;
+}
 @media (max-resolution: 1dppx) {
     #header {
         margin-bottom: 5px;
@@ -32,6 +39,10 @@ body{
     }
     .main {
         font-size: 1em;
+    }
+    .glitch {
+        font-size: 100px;
+        width:400px;
     }
 }
 .main a:link{
@@ -65,13 +76,6 @@ body{
     top: 0px;
     left: 0px;
     z-index: 0;
-}
-.glitch{
-  color:white;
-  font-size:100px;
-  position:relative;
-  width:400px;
-  margin:0 auto;
 }
 @keyframes noise-anim {
     0% {
