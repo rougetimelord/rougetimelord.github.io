@@ -17,6 +17,22 @@ body{
     top: 30%;
     left: 25%;
     z-index: 1;
+    font-size: 4em;
+}
+#header {
+    margin-bottom: 5px;
+    font-size: 6em;
+    color: #fff;
+}
+@media (max-resolution: 1dppx) {
+    #header {
+        margin-bottom: 5px;
+        font-size: 4em;
+        color: #fff;
+    }
+    .main {
+        font-size: 1em;
+    }
 }
 .main a:link{
     color: #ccc;
@@ -43,11 +59,6 @@ body{
 #links ul > li:before {
   content: "-";
   text-indent: .5em;
-}
-#header{
-    margin-bottom: 5px;
-    font-size: 4em;
-    color: #fff;
 }
 #back{
     position: absolute;
