@@ -10,19 +10,18 @@ var song = function () {
     var audioBuffer, sourceNode, analyser, javascriptNode;
     var song_ind = 0, songs = ["never-met", "still-high", "dark", "fuck-boy"], firstReq = true;
     var buffers = [];
+
     var changeSong = function () {
-        var temp = -1;
-        while (temp == song_ind || temp <= 0) {
-            temp = Math.floor(Math.random() * songs.length);
-        }
-        song_ind = temp;
+        song_ind = Math.floor(Math.random() * buffers.length);
         if (firstReq) {
+            song_ind = Math.floor(Math.random() * songs.length);
             load(song_ind);
         }
         else {
             new playSound(buffers[song_ind])
         }
     }
+
     var loadCurr = 0;
 
     var load = function (i) {
@@ -67,13 +66,12 @@ var song = function () {
         _.request.responseType = 'arraybuffer';
         // When loaded decode the data
         _.request.onload = function () {
-            console.log(url, _.request.response);
             // decode the data
             context.decodeAudioData(_.request.response, function (buffer) {
                 // when the audio is decoded play the sound
                 if (firstReq) {
                     firstReq = false;
-                    playSound(buffer)
+                    new playSound(buffer);
                 }
                 buffers.push(buffer);
                 if(buffers.length < songs.length)
@@ -88,8 +86,8 @@ var song = function () {
         this.source.connect(analyser);
         this.source.connect(context.destination);
         this.source.buffer = buffer;
-        this.duration = Math.floor(this.source.duration * 1000);
-        source.start(0);
+        this.duration = Math.floor(buffer.duration * 1000);
+        this.source.start(0);
         setTimeout(changeSong, this.duration);
     }
 
