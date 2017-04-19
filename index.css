@@ -4,7 +4,6 @@ body{
     overflow: hidden;
 }
 .react{
-    color: #bbb;
     transition: color .1s linear;
 }
 .react.light{
@@ -15,34 +14,49 @@ body{
     color: #bbb;
     position: absolute;
     top: 30%;
-    left: 25%;
+    left: 20%;
     z-index: 1;
-    font-size: 4em;
+    font-size: 3em;
 }
 #header {
     margin-bottom: 5px;
-    font-size: 5em;
+    font-size: 4em;
     color: #fff;
 }
-.glitch{
-  color:white;
-  font-size: 5em;
-  position:relative;
-  width:300px;
-  margin:0 auto;
-}
 @media (max-resolution: 1dppx) {
-    #header {
-        margin-bottom: 5px;
-        font-size: 4em;
-        color: #fff;
-    }
     .main {
         font-size: 1em;
+        left: 25%;
+        top: 35%;
     }
-    .glitch {
-        font-size: 100px;
-        width:400px;
+    .glitch{
+        position:relative;
+        width: 400px;
+        margin:0 auto;
+    }
+    .glitch:before{
+        content:attr(data-text);
+        position:absolute;
+        left:-2px;
+        text-shadow:1px 0 blue; 
+        top:0;
+        color:white;
+        background:black;
+        overflow:hidden;
+        clip:rect(0,900px,0,0); 
+        animation:noise-anim-2 3s infinite linear alternate-reverse;
+    }
+    .glitch:after{
+        content:attr(data-text);
+        position:absolute;
+        left:2px;
+        text-shadow:-1px 0 red;
+        top:0;
+        color:white;
+        background:black;
+        overflow:hidden;
+        clip:rect(0,900px,0,0); 
+        animation:noise-anim 3s infinite linear alternate;
     }
 }
 .main a:link{
@@ -142,18 +156,6 @@ body{
         clip: rect(54px, 9999px, 57px, 0);
     }
 }
-.glitch:after{
-  content:attr(data-text);
-  position:absolute;
-  left:2px;
-  text-shadow:-1px 0 red;
-  top:0;
-  color:white;
-  background:black;
-  overflow:hidden;
-  clip:rect(0,900px,0,0); 
-  animation:noise-anim 3s infinite linear alternate;
-}
 @keyframes noise-anim-2 {
     0% {
         clip: rect(21px, 9999px, 5px, 0);
@@ -218,16 +220,4 @@ body{
     100% {
         clip: rect(56px, 9999px, 24px, 0);
     }
-}
-.glitch:before{
-  content:attr(data-text);
-  position:absolute;
-  left:-2px;
-  text-shadow:1px 0 blue; 
-  top:0;
-  color:white;
-  background:black;
-  overflow:hidden;
-  clip:rect(0,900px,0,0); 
-  animation:noise-anim-2 3s infinite linear alternate-reverse;
 }
