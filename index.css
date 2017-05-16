@@ -20,7 +20,7 @@ body{
 }
 #header {
     margin-bottom: 5px;
-    font-size: 4em;
+    font-size: 1em;
     color: #fff;
 }
 @media (max-resolution: 1dppx) {
@@ -29,6 +29,35 @@ body{
         left: 25%;
         top: 35%;
     }
+   .glitch{		
+         position:relative;		
+         width: 400px;		
+         margin:0 auto;		
+     }		
+     .glitch:before{		
+         content:attr(data-text);		
+         position:absolute;		
+         left:-2px;		
+         text-shadow:1px 0 blue; 		
+         top:0;		
+         color:white;		
+         background:black;		
+         overflow:hidden;		
+         clip:rect(0,900px,0,0); 		
+         animation:noise-anim-2 3s infinite linear alternate-reverse;		
+     }		
+     .glitch:after{		
+         content:attr(data-text);		
+         position:absolute;		
+         left:2px;		
+         text-shadow:-1px 0 red;		
+         top:0;		
+         color:white;		
+         background:black;		
+         overflow:hidden;		
+         clip:rect(0,900px,0,0); 		
+         animation:noise-anim 3s infinite linear alternate;		
+     }
 }
 .main a:link{
     color: #ccc;
