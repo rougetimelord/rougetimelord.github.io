@@ -1,10 +1,11 @@
+var MAINDIV;
 var swap = function (res) {
     var req = new XMLHttpRequest();
     req.open("GET", res, true);
     req.timeout = 4000;
     req.onload = function () {
         if (req.status == 200 || req.status == 304) {
-            document.getElementsByClassName('main')[0].innerHTML = req.responseText;
+            MAINDIV.innerHTML = req.responseText;
             addXHR();
         } else { console.log(req.status); }
     }
@@ -32,6 +33,8 @@ var runStar = function () {
 }
 
 document.addEventListener('DOMContentLoaded', function () {
+    MAINDIV = document.getElementsByClassName('main')[0]
+    swap('./index_content.html')
     addXHR();
     runStar();
     song();

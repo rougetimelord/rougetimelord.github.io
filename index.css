@@ -9,7 +9,7 @@ body{
 .react.light{
     color: #ddd !important;
 }
-.main{
+.text{
     text-align: left;
     color: #bbb;
     position: absolute;
@@ -24,7 +24,7 @@ body{
     color: #fff;
 }
 @media (max-resolution: 1dppx) {
-    .main {
+    .text{
         font-size: 1em;
         left: 25%;
         top: 35%;
