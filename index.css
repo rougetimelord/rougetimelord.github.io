@@ -28,8 +28,6 @@ body{
 @media (max-resolution: 1dppx) {
     .text{
         font-size: 1em;
-        left: 25%;
-        top: 35%;
     }
    .glitch{		
          position:relative;		
