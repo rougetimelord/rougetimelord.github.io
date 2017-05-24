@@ -34,7 +34,6 @@ var runStar = function () {
 
 document.addEventListener('DOMContentLoaded', function () {
     MAINDIV = document.getElementsByClassName('main')[0]
-    swap('./index_content.html')
     addXHR();
     runStar();
     song();
