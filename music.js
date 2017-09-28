@@ -44,7 +44,7 @@ var song = function () {
         }
     }
 
-    (function() {
+    function setupNode() {
         // setup a javascript node
         javascriptNode = context.createScriptProcessor(2048, 1, 1);
         // connect to destination, else it isn't called
@@ -57,7 +57,8 @@ var song = function () {
         analyser.connect(javascriptNode);
         // start loop
         changeSong();
-    })()
+    }
+    setupNode();
 
     function makeReqObj(url) {
         _ = this;
