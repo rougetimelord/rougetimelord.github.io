@@ -1,16 +1,19 @@
 var song = function () {
     if (!window.AudioContext) {
         if (!window.webkitAudioContext) {
-            alert('No audiocontext found');
+            var e = document.createElement('audio');
+            e.src = "./Content/fuck-boy.mp3";
+            e.autoplay = true;
+            e.loop = true;
+            return document.body.appendChild(e);
         }
         window.AudioContext = window.webkitAudioContext;
     }
-
+    
     var context = new AudioContext();
-    var audioBuffer, sourceNode, analyser, javascriptNode;
-    var song_ind = 0, songs = ["never-met", "still-high", "dark", "fuck-boy"], firstReq = true;
-    var buffers = [];
-
+    var audioBuffer, sourceNode, analyser, javascriptNode, firstReq = true;
+    var buffers = [], song_ind = 0, songs = ["never-met", "still-high", "dark", "fuck-boy"];
+    
     var changeSong = function () {
         song_ind = Math.floor(Math.random() * buffers.length);
         if (firstReq) {
@@ -41,10 +44,7 @@ var song = function () {
         }
     }
 
-    // load the sound
-    setupAudioNodes();
-
-    function setupAudioNodes() {
+    (function() {
         // setup a javascript node
         javascriptNode = context.createScriptProcessor(2048, 1, 1);
         // connect to destination, else it isn't called
@@ -57,7 +57,7 @@ var song = function () {
         analyser.connect(javascriptNode);
         // start loop
         changeSong();
-    }
+    })()
 
     function makeReqObj(url) {
         _ = this;
