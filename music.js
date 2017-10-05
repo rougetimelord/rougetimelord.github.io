@@ -2,7 +2,7 @@ var song = function () {
     if (!window.AudioContext) {
         if (!window.webkitAudioContext) {
             var e = document.createElement('audio');
-            e.src = "./Content/fuck-boy.mp3";
+            e.src = './Content/fuck-boy.mp3';
             e.autoplay = true;
             e.loop = true;
             return document.body.appendChild(e);
@@ -11,8 +11,8 @@ var song = function () {
     }
     
     var context = new AudioContext();
-    var audioBuffer, sourceNode, analyser, javascriptNode, firstReq = true;
-    var buffers = [], song_ind = 0, songs = ["never-met", "still-high", "dark", "fuck-boy"];
+    var analyser, javascriptNode, firstReq = true;
+    var buffers = [], song_ind = 0, songs = ['never-met', 'still-high', 'dark', 'fuck-boy'];
     
     var changeSong = function () {
         song_ind = Math.floor(Math.random() * buffers.length);
@@ -21,17 +21,17 @@ var song = function () {
             load(song_ind);
         }
         else {
-            new playSound(buffers[song_ind])
+            new playSound(buffers[song_ind]);
         }
-    }
+    };
 
     var loadCurr = 0;
 
     var load = function (i) {
-        url = "./Content/" + songs[i] + ".mp3";
+        var url = './Content/' + songs[i] + '.mp3';
         loadCurr = i;
         new makeReqObj(url);
-    }
+    };
 
     var loadNext = function () {
         loadCurr++;
@@ -42,7 +42,7 @@ var song = function () {
             loadCurr = 0;
             load(loadCurr);
         }
-    }
+    };
 
     function setupNode() {
         // setup a javascript node
@@ -61,7 +61,7 @@ var song = function () {
     setupNode();
 
     function makeReqObj(url) {
-        _ = this;
+        var _ = this;
         _.request = new XMLHttpRequest();
         _.request.open('GET', url, true);
         _.request.responseType = 'arraybuffer';
@@ -77,7 +77,7 @@ var song = function () {
                 buffers.push(buffer);
                 if(buffers.length < songs.length)
                     loadNext();
-            })
+            });
         };
         _.request.send();
     }
@@ -97,7 +97,7 @@ var song = function () {
         // get the average, bincount is fftsize / 2
         var array = new Uint8Array(analyser.frequencyBinCount);
         analyser.getByteFrequencyData(array);
-        var average = getAverageVolume(array)
+        var average = getAverageVolume(array);
         var display = document.getElementsByClassName('react');
 
         for (var i = 0; i < display.length; i++) {
@@ -105,11 +105,11 @@ var song = function () {
         }
 
         if (average >= 70) {
-            for (var i = 0; i < display.length; i++) {
-                display[i].classList.add('light');
+            for (var j = 0; j < display.length; j++) {
+                display[j].classList.add('light');
             }
         }
-    }
+    };
 
     function getAverageVolume(array) {
         var values = 0;
@@ -125,9 +125,4 @@ var song = function () {
         average = values / length;
         return average;
     }
-
-    // log if an error occurs
-    function onError(e) {
-        console.log(e);
-    }
-}
+};

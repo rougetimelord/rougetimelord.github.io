@@ -30,7 +30,7 @@ Starfield.prototype.initialise = function (div) {
         self.canvas.width = self.width;
         self.canvas.height = self.height;
         self.draw();
-    }
+    };
 
     //	Create the canvas.
     var canvas = document.createElement('canvas');
@@ -46,7 +46,7 @@ Starfield.prototype.start = function () {
     var stars = [];
     for (var i = 0; i < this.stars; i++) {
         stars[i] = new Star(Math.random() * this.width, Math.random() * this.height, Math.random() * 3 + 1,
-		 (Math.random() * (this.maxVelocity - this.minVelocity)) + this.minVelocity);
+            (Math.random() * (this.maxVelocity - this.minVelocity)) + this.minVelocity);
     }
     this.stars = stars;
 
@@ -71,7 +71,7 @@ Starfield.prototype.update = function () {
         //	If the star has moved from the bottom of the screen, spawn it at the top.
         if (star.y > this.height) {
             this.stars[i] = new Star(Math.random() * this.width, 0, Math.random() * 3 + 1,
-		 	(Math.random() * (this.maxVelocity - this.minVelocity)) + this.minVelocity);
+                (Math.random() * (this.maxVelocity - this.minVelocity)) + this.minVelocity);
         }
     }
 };
@@ -79,7 +79,7 @@ Starfield.prototype.update = function () {
 Starfield.prototype.draw = function () {
 
     //	Get the drawing context.
-    var ctx = this.canvas.getContext("2d");
+    var ctx = this.canvas.getContext('2d');
 
     //	Draw the background.
     ctx.fillStyle = '#000000';
