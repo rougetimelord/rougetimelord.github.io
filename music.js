@@ -56,6 +56,7 @@ var song = function () {
         // we use the javascript node to draw at a specific interval.
         analyser.connect(javascriptNode);
         gainNode = context.createGain();
+        gainNode.gain.setValueAtTime(.4, context.currentTime);
         gainNode.connect(context.destination);
         // start loop
         changeSong();
@@ -129,9 +130,9 @@ var song = function () {
     }
 
     window.addEventListener('focus', ()=>{
-        gainNode.gain.setValueAtTime(.4, context.currentTime);
+        gainNode.gain.linearRampToValueAtTime(.4, context.currentTime + 0.3);
     });
     window.addEventListener('blur', ()=>{
-        gainNode.gain.setValueAtTime(.05, context.currentTime);
+        gainNode.gain.linearRampToValueAtTime(.05, context.currentTime + 1.2);
     });
 };
