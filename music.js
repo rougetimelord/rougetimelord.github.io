@@ -11,7 +11,7 @@ var song = function () {
     }
     
     var context = new AudioContext();
-    var analyser, javascriptNode, firstReq = true;
+    var analyser, javascriptNode, gainNode, firstReq = true;
     var buffers = [], song_ind = 0, songs = ['never-met', 'still-high', 'dark', 'fuck-boy'];
     
     var changeSong = function () {
@@ -55,6 +55,8 @@ var song = function () {
         analyser.fftSize = 1024;
         // we use the javascript node to draw at a specific interval.
         analyser.connect(javascriptNode);
+        gainNode = context.createGain();
+        gainNode.connect(context.destination);
         // start loop
         changeSong();
     }
@@ -85,7 +87,7 @@ var song = function () {
     function playSound(buffer) {
         this.source = context.createBufferSource();
         this.source.connect(analyser);
-        this.source.connect(context.destination);
+        this.source.connect(gainNode);
         this.source.buffer = buffer;
         this.duration = Math.floor(buffer.duration * 1000);
         this.source.start(0);
@@ -125,4 +127,11 @@ var song = function () {
         average = values / length;
         return average;
     }
+
+    window.addEventListener('focus', ()=>{
+        gainNode.gain.setValueAtTime(.4, context.currentTime);
+    });
+    window.addEventListener('blur', ()=>{
+        gainNode.gain.setValueAtTime(.05, context.currentTime);
+    });
 };
