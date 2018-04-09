@@ -5,7 +5,7 @@
 
 //	Define the starfield class.
 function Starfield() {
-    this.fps = 30;
+    this.fps = 60;
     this.canvas = null;
     this.width = 0;
     this.width = 0;
@@ -24,7 +24,7 @@ Starfield.prototype.initialise = function (div) {
     self.width = window.innerWidth;
     self.height = window.innerHeight;
 
-    window.onresize = function (event) {
+    window.onresize = ()=>{
         self.width = window.innerWidth;
         self.height = window.innerHeight;
         self.canvas.width = self.width;
