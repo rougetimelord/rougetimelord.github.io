@@ -36,6 +36,7 @@ document.addEventListener('DOMContentLoaded', function () {
     MAINDIV = document.getElementsByClassName('main')[0];
     addXHR();
     runStar();
-    song();
+    var music = new Music();
+    music.initialise;
 }
 );
