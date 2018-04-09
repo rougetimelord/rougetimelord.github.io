@@ -129,10 +129,7 @@ var song = function () {
         return average;
     }
 
-    window.addEventListener('focus', ()=>{
-        gainNode.gain.linearRampToValueAtTime(.35, context.currentTime + 0.3);
-    });
-    window.addEventListener('blur', ()=>{
-        gainNode.gain.linearRampToValueAtTime(.03, context.currentTime + 1.2);
+    document.addEventListener('visibilitychange', ()=>{
+        gainNode.gain.linearRampToValueAtTime(document.hidden ? .03: .35, context.currentTime + (document.hidden ? .75: 0.3) );
     });
 };
