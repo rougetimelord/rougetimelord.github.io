@@ -3,7 +3,7 @@ var Music = function () {
     this.analyser;
     this.javascriptNode;
     this.gainNode;
-    this.this.firstReq = true;
+    this.firstReq = true;
     this.buffers = [];
     this.song_ind = 0;
     this.songs = ['never-met', 'still-high', 'dark', 'fuck-boy'];
