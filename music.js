@@ -2,20 +2,12 @@ var Music = class {
     constructor(){
         this.context = new AudioContext();
         if(this.context.state!='running'){return !1;}
-        this.analyser;
-        this.javascriptNode;
-        this.gainNode;
-        this.firstReq = true;
-        this.buffers = [];
-        this.song_ind = 0;
-        this.songs = ['never-met', 'still-high', 'dark', 'fuck-boy'];
-        this.loadCurr = 0;
-        // setup a javascript node
+        //Set up javascript node, TODO: use audio worker
         this.javascriptNode = this.context.createScriptProcessor(2048, 1, 1);
-        // connect to destination, else it isn't called
+        //Connect to destination, else it isn't called
         this.javascriptNode.connect(this.context.destination);
         this.javascriptNode.onaudioprocess = ()=>{
-            // get the average, bincount is fftsize / 2
+            //Get the average, bincount is fftsize / 2
             var array = new Uint8Array(this.analyser.frequencyBinCount);
             this.analyser.getByteFrequencyData(array);
             var average = this.getAverageVolume(array);
@@ -29,18 +21,26 @@ var Music = class {
                 }
             }
         };
-        // setup analyser
+        //Set up analyser
         this.analyser = this.context.createAnalyser();
         this.analyser.smoothingTimeConstant = 0.3;
         this.analyser.fftSize = 1024;
-        // we use the javascript node to draw at a specific interval.
         this.analyser.connect(this.javascriptNode);
+        //Set up gain node
         this.gainNode = this.context.createGain();
         this.gainNode.gain.setValueAtTime(0, this.context.currentTime);
         this.gainNode.connect(this.context.destination);
+        //Set up variables
+        this.firstReq = true;
+        this.buffers = [];
+        this.song_ind = 0;
+        this.songs = ['never-met', 'still-high', 'dark', 'fuck-boy'];
+        this.loadCurr = 0;
+        //Add visibility listener
         document.addEventListener('visibilitychange', ()=>{
             this.gainNode.gain.linearRampToValueAtTime(document.hidden ? .03: .35, this.context.currentTime + (document.hidden ? .75: 0.3) );
         });
+        //Start playing music
         this.changeSong();
     }
     playSound(buffer){
