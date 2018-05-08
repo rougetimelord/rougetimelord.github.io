@@ -105,7 +105,6 @@ var Music = class {
     }
     changeSong(){
         let self = this;
-        console.log(this.buffers);
         this.song_ind = Math.floor(Math.random() * self.buffers.length);
         if (this.firstReq) {
             self.song_ind = Math.floor(Math.random() * self.songs.length);
