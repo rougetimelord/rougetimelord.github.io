@@ -31,12 +31,15 @@ var runStar = function () {
     starfield.initialise(container);
     starfield.start();
 };
-
-document.addEventListener('DOMContentLoaded', function () {
+document.addEventListener('DOMContentLoaded', ()=>{
     MAINDIV = document.getElementsByClassName('main')[0];
     addXHR();
     runStar();
-    var music = new Music();
-    music.initialise;
+    let b = !0; 
+    let music = new Music();
+    if(music.context.state == 'suspended'){
+        music.context.close()
+        document.addEventListener('click', ()=>{if(music.context.state!='running'){music = new Music();}});
+    }
 }
 );
