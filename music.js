@@ -48,7 +48,7 @@ var Music = class {
         this.source.connect(this.analyser);
         this.source.connect(this.gainNode);
         this.source.buffer = buffer;
-        this.duration = Math.floor(buffer.duration * 1000);
+        this.duration = buffer.duration * 1E3;
         this.source.start(0);
         setTimeout(this.changeSong.bind(this), this.duration);
         if(this.firstReq){
