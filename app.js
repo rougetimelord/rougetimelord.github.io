@@ -35,10 +35,9 @@ document.addEventListener('DOMContentLoaded', ()=>{
     MAINDIV = document.getElementsByClassName('main')[0];
     addXHR();
     runStar();
-    let b = !0; 
     let music = new Music();
     if(music.context.state == 'suspended'){
-        music.context.close()
+        music.context.close();
         document.addEventListener('click', ()=>{if(music.context.state!='running'){music = new Music();}});
     }
 }
