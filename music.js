@@ -39,6 +39,9 @@ var Music = class {
         //Add visibility listener
         document.addEventListener('visibilitychange', ()=>{
             this.gainNode.gain.linearRampToValueAtTime(document.hidden ? .03: .35, this.context.currentTime + (document.hidden ? .75: 0.3) );
+            if(document.hidden){
+                this.gainNode.gain.setValueAtTime(0, this.context.currentTime + 60);
+            }
         });
         //Start playing music
         this.changeSong();
@@ -50,7 +53,7 @@ var Music = class {
         this.source.buffer = buffer;
         this.duration = buffer.duration * 1E3;
         this.source.start(0);
-        setTimeout(this.changeSong.bind(this), this.duration);
+        this.songTimeout = setTimeout(this.changeSong.bind(this), this.duration);
         if(this.firstReq){
             this.gainNode.gain.linearRampToValueAtTime(.35, this.context.currentTime + 1.5);
             this.firstReq = !1;
