@@ -104,19 +104,17 @@ a{
         display: inline;
         margin: 0px;
         &.long{
-            font-size: 4.5em;
+            font-size: 4.25em;
         }
     }
 }
 @media all and (min-device-width: 0px) and (max-device-width: 1024px){
-    .wrap .header{
-        font-size: 10em;
-        &.long{
-            font-size: 7.5em;
-        }
+    .main{
+        top: 5%;
+        left: 10%;
     }
     .text{
-        font-size: 2.75em;
+        font-size: 1.5em;
         margin-right: 15%;
     }
 }
