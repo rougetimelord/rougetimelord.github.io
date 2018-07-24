@@ -13,7 +13,7 @@ var Music = class {
         this.gainNode.connect(window.context.destination);
         this.analyser.connect(this.gainNode);
         //Run visualizer
-        this.draw = requestAnimationFrame(this.visualize.bind(this))
+        this.draw = '';
         //Set up variables
         this.firstReq = true;
         this.buffers = [];
@@ -27,14 +27,16 @@ var Music = class {
                 this.gainNode.gain.setValueAtTime(.01, window.context.currentTime + 60);
             }
         });
+        this.source = this.duration = this.request = this.songTimeout = '';
         //Start playing music
+        this.visualize();
         this.changeSong();
     }
     visualize(){
-        console.log(this);
+        this.draw = requestAnimationFrame(this.visualize.bind(this));
         let array = new Uint8Array(this.analyser.frequencyBinCount);
         this.analyser.getByteFrequencyData(array);
-        let average = arr => {
+        let avg = arr => {
             let sum = arr.reduce(function(a, b) { return a + b; });
             return sum / arr.length;
         };
@@ -42,7 +44,7 @@ var Music = class {
         for (let i of display) {
             i.classList.remove('light');
         }
-        if (average >= 70) {
+        if (avg(array) >= 70) {
             for (let j of display) {
                 j.classList.add('light');
             }
@@ -106,3 +108,5 @@ var Music = class {
         }
     }
 };
+
+window['Music'] = Music;
