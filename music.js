@@ -2,34 +2,18 @@ var Music = class {
     constructor(){
         window.context = new AudioContext();
         if(window.context.state!='running'){return !1;}
-        //Set up javascript node, TODO: use audio worker
-        this.javascriptNode = window.context.createScriptProcessor(2048, 1, 1);
-        //Connect to destination, else it isn't called
-        this.javascriptNode.connect(window.context.destination);
-        this.javascriptNode.onaudioprocess = ()=>{
-            //Get the average, bincount is fftsize / 2
-            var array = new Uint8Array(this.analyser.frequencyBinCount);
-            this.analyser.getByteFrequencyData(array);
-            var average = this.getAverageVolume(array);
-            var display = document.getElementsByClassName('react');
-            for (var i = 0; i < display.length; i++) {
-                display[i].classList.remove('light');
-            }
-            if (average >= 70) {
-                for (var j = 0; j < display.length; j++) {
-                    display[j].classList.add('light');
-                }
-            }
-        };
         //Set up analyser
         this.analyser = window.context.createAnalyser();
         this.analyser.smoothingTimeConstant = 0.3;
         this.analyser.fftSize = 1024;
-        this.analyser.connect(this.javascriptNode);
         //Set up gain node
         this.gainNode = window.context.createGain();
         this.gainNode.gain.setValueAtTime(0, window.context.currentTime);
+        //Connect nodes
         this.gainNode.connect(window.context.destination);
+        this.analyser.connect(this.gainNode);
+        //Run visualizer
+        this.draw = requestAnimationFrame(this.visualize.bind(this))
         //Set up variables
         this.firstReq = true;
         this.buffers = [];
@@ -46,10 +30,27 @@ var Music = class {
         //Start playing music
         this.changeSong();
     }
+    visualize(){
+        console.log(this);
+        let array = new Uint8Array(this.analyser.frequencyBinCount);
+        this.analyser.getByteFrequencyData(array);
+        let average = arr => {
+            let sum = arr.reduce(function(a, b) { return a + b; });
+            return sum / arr.length;
+        };
+        let display = document.getElementsByClassName('react');
+        for (let i of display) {
+            i.classList.remove('light');
+        }
+        if (average >= 70) {
+            for (let j of display) {
+                j.classList.add('light');
+            }
+        }
+    }
     playSound(buffer){
         this.source = window.context.createBufferSource();
         this.source.connect(this.analyser);
-        this.source.connect(this.gainNode);
         this.source.buffer = buffer;
         this.duration = buffer.duration * 1E3;
         this.source.start(0);
@@ -92,17 +93,6 @@ var Music = class {
             self.loadCurr = 0;
             self.load(0);
         }
-    }
-    getAverageVolume(array){
-        var values = 0;
-        var average;
-        var length = array.length;
-        // get all the frequency amplitudes
-        for (var i = 0; i < length; i++) {
-            values += array[i];
-        }
-        average = values / length;
-        return average;
     }
     changeSong(){
         let self = this;
