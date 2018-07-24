@@ -6,20 +6,20 @@
 class Starfield {
     constructor() {
         this.fps = 60;
-        this.canvas = null;
+        this.containerDiv = document.getElementById('back');
+        var canvas = document.createElement('canvas');
+        this.containerDiv.appendChild(canvas);
+        this.canvas = canvas;
         this.height = 0;
         this.width = 0;
         this.minVelocity = 15;
         this.maxVelocity = 30;
         this.stars = 100;
-        this.intervalId = 0;
-        this.containerDiv = null;
+        this.old = 0;
     }
     //	The main function - initialises the starfield.
-    initialise(div) {
+    initialise() {
         var self = this;
-        //	Store the div.
-        this.containerDiv = div;
         self.width = window.innerWidth;
         self.height = window.innerHeight;
         window.onresize = () => {
@@ -27,40 +27,37 @@ class Starfield {
             self.height = window.innerHeight;
             self.canvas.width = self.width;
             self.canvas.height = self.height;
-            self.draw();
         };
         //	Create the canvas.
-        var canvas = document.createElement('canvas');
-        div.appendChild(canvas);
-        this.canvas = canvas;
         this.canvas.width = this.width;
         this.canvas.height = this.height;
         //	Create the stars.
         var stars = [];
         for (var i = 0; i < this.stars; i++) {
-            stars[i] = new Star(Math.random() * this.width, Math.random() * this.height, Math.random() * 3 + 1, (Math.random() * (this.maxVelocity - this.minVelocity)) + this.minVelocity);
+            stars[i] = new Star(Math.random() * this.width, Math.random() * this.height, Math.random() * 3 + 1, (Math.random() * this.maxVelocity) + this.minVelocity);
         }
         this.stars = stars;
-        var self = this;
         //	Start the timer.
-        this.intervalId = setInterval(function () {
-            self.update();
-            self.draw();
-        }, 1000 / this.fps);
+        requestAnimationFrame(this.raf.bind(this));
     }
-    stop() {
-        clearInterval(this.intervalId);
+    raf(time) {
+        this.update(time);
+        this.draw()
+        requestAnimationFrame(this.raf.bind(this));
     }
-    update() {
-        var dt = 1 / this.fps;
+    update(t) {
+        console.log(t, this.old)
+        let dt = (t - this.old)/1000;
         for (var i = 0; i < this.stars.length; i++) {
             var star = this.stars[i];
             star.y += dt * star.velocity;
             //	If the star has moved from the bottom of the screen, spawn it at the top.
             if (star.y > this.height) {
-                this.stars[i] = new Star(Math.random() * this.width, 0, Math.random() * 3 + 1, (Math.random() * (this.maxVelocity - this.minVelocity)) + this.minVelocity);
+                this.stars[i] = new Star(Math.random() * this.width, 0, Math.random() * 3 + 1, (Math.random() * this.maxVelocity) + this.minVelocity);
             }
         }
+        this.old = t;
+        return;
     }
     draw() {
         //	Get the drawing context.
@@ -74,6 +71,7 @@ class Starfield {
             var star = this.stars[i];
             ctx.fillRect(star.x, star.y, star.size, star.size);
         }
+        return;
     }
 }
 

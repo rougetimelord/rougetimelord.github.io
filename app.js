@@ -29,7 +29,7 @@ var addXHR = function () {
 var runStar = function () {
     var container = document.getElementById('back');
     var starfield = new Starfield();
-    starfield.initialise(container);
+    starfield.initialise();
 };
 document.addEventListener('DOMContentLoaded', ()=>{
     MAINDIV = document.getElementsByClassName('main')[0];
