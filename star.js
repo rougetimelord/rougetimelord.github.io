@@ -7,12 +7,13 @@ class Starfield {
     constructor() {
         this.fps = 60;
         this.canvas = null;
-        this.width = 0;
+        this.height = 0;
         this.width = 0;
         this.minVelocity = 15;
         this.maxVelocity = 30;
         this.stars = 100;
         this.intervalId = 0;
+        this.containerDiv = null;
     }
     //	The main function - initialises the starfield.
     initialise(div) {
@@ -34,8 +35,6 @@ class Starfield {
         this.canvas = canvas;
         this.canvas.width = this.width;
         this.canvas.height = this.height;
-    }
-    start() {
         //	Create the stars.
         var stars = [];
         for (var i = 0; i < this.stars; i++) {
@@ -78,12 +77,6 @@ class Starfield {
     }
 }
 
-
-
-
-
-
-
 class Star {
     constructor(x, y, size, velocity) {
         this.x = x;
@@ -92,3 +85,6 @@ class Star {
         this.velocity = velocity;
     }
 }
+
+window['Starfield'] = Starfield;
+Starfield.prototype['initialise'] = Starfield.prototype.initialise;

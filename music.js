@@ -59,21 +59,10 @@ var Music = class {
             this.firstReq = !1;
         }
     }
-    /*async array2store(b){
-        let str = [].reduce.call(new Uint8Array(b),function(p,c){window.p=p;return p+String.fromCharCode(c)},'');
-        let zip = window.lzen(str);
-        window.localStorage.setItem(String(this.loadCurr), zip)
-    }
-    async store2array(b){
-        let array = Uint8Array.from(atob(b), c => c.charCodeAt(0));
-        return array.buffer;
-    }*/
     makeReq(url){
         let _ = this;
         this.request = new XMLHttpRequest();
         this.request.addEventListener("load", function(){
-            //_.array2store(this.response, _)
-            // decode the data
             window.context.decodeAudioData(this.response, function (buffer) {
                 // when the audio is decoded play the sound
                 if (_.firstReq) {
@@ -89,14 +78,9 @@ var Music = class {
         this.request.send();
     }
     load(i){
-        //if(!!window.localStorage.getItem(String(i))){
-            //_.playSound(_.b642array(window.localStorage.getItem(String(i))));
-        //}
-        //else{
-            let url = './Content/' + this.songs[i] + '.ogg';
-            this.loadCurr = i;
-            this.makeReq(url);
-        //}
+        let url = './Content/' + this.songs[i] + '.ogg';
+        this.loadCurr = i;
+        this.makeReq(url);
     }
     loadNext(){
         let self = this;
