@@ -15,10 +15,9 @@ var swap = function (res) {
 
 var addXHR = function () {
     var linkArray = document.getElementsByClassName('xhr');
-    if (!!history.pushState && linkArray.length != 0) {
-        for (var i = 0; i < linkArray.length; i++) {
-            var a = linkArray[i];
-            a.addEventListener('click', function (e) {
+    if (linkArray.length != 0) {
+        for (let i of linkArray) {
+            i.addEventListener('click', e=>{
                 e.preventDefault();
                 swap(a.href);
             }, false);
@@ -26,15 +25,11 @@ var addXHR = function () {
     }
 };
 
-var runStar = function () {
-    var container = document.getElementById('back');
-    var starfield = new Starfield();
-    starfield.initialise();
-};
 document.addEventListener('DOMContentLoaded', ()=>{
     MAINDIV = document.getElementsByClassName('main')[0];
     addXHR();
-    runStar();
+    var s = new Starfield();
+    s.initialise();
     let music = new Music();
     if(window.context.state == 'suspended'){
         window.context.close();
