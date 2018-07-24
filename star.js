@@ -46,8 +46,8 @@ class Starfield {
         requestAnimationFrame(this.raf.bind(this));
     }
     update(t) {
-        console.log(t, this.old)
         let dt = (t - this.old)/1000;
+        dt = (dt >= 5) ? 5 : dt;
         for (var i = 0; i < this.stars.length; i++) {
             var star = this.stars[i];
             star.y += dt * star.velocity;
