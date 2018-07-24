@@ -1,11 +1,11 @@
 var Music = class {
     constructor(){
-        this.context = new AudioContext();
-        if(this.context.state!='running'){return !1;}
+        window.context = new AudioContext();
+        if(window.context.state!='running'){return !1;}
         //Set up javascript node, TODO: use audio worker
-        this.javascriptNode = this.context.createScriptProcessor(2048, 1, 1);
+        this.javascriptNode = window.context.createScriptProcessor(2048, 1, 1);
         //Connect to destination, else it isn't called
-        this.javascriptNode.connect(this.context.destination);
+        this.javascriptNode.connect(window.context.destination);
         this.javascriptNode.onaudioprocess = ()=>{
             //Get the average, bincount is fftsize / 2
             var array = new Uint8Array(this.analyser.frequencyBinCount);
@@ -22,14 +22,14 @@ var Music = class {
             }
         };
         //Set up analyser
-        this.analyser = this.context.createAnalyser();
+        this.analyser = window.context.createAnalyser();
         this.analyser.smoothingTimeConstant = 0.3;
         this.analyser.fftSize = 1024;
         this.analyser.connect(this.javascriptNode);
         //Set up gain node
-        this.gainNode = this.context.createGain();
-        this.gainNode.gain.setValueAtTime(0, this.context.currentTime);
-        this.gainNode.connect(this.context.destination);
+        this.gainNode = window.context.createGain();
+        this.gainNode.gain.setValueAtTime(0, window.context.currentTime);
+        this.gainNode.connect(window.context.destination);
         //Set up variables
         this.firstReq = true;
         this.buffers = [];
@@ -38,16 +38,16 @@ var Music = class {
         this.loadCurr = 0;
         //Add visibility listener
         document.addEventListener('visibilitychange', ()=>{
-            this.gainNode.gain.linearRampToValueAtTime(document.hidden ? .03: .35, this.context.currentTime + (document.hidden ? .75: 0.3) );
+            this.gainNode.gain.linearRampToValueAtTime(document.hidden ? .03: .35, window.context.currentTime + (document.hidden ? .75: 0.3) );
             if(document.hidden){
-                this.gainNode.gain.setValueAtTime(0, this.context.currentTime + 60);
+                this.gainNode.gain.setValueAtTime(.01, window.context.currentTime + 60);
             }
         });
         //Start playing music
         this.changeSong();
     }
     playSound(buffer){
-        this.source = this.context.createBufferSource();
+        this.source = window.context.createBufferSource();
         this.source.connect(this.analyser);
         this.source.connect(this.gainNode);
         this.source.buffer = buffer;
@@ -55,34 +55,48 @@ var Music = class {
         this.source.start(0);
         this.songTimeout = setTimeout(this.changeSong.bind(this), this.duration);
         if(this.firstReq){
-            this.gainNode.gain.linearRampToValueAtTime(.35, this.context.currentTime + 1.5);
+            this.gainNode.gain.linearRampToValueAtTime(.35, window.context.currentTime + 1.5);
             this.firstReq = !1;
         }
     }
+    /*async array2store(b){
+        let str = [].reduce.call(new Uint8Array(b),function(p,c){window.p=p;return p+String.fromCharCode(c)},'');
+        let zip = window.lzen(str);
+        window.localStorage.setItem(String(this.loadCurr), zip)
+    }
+    async store2array(b){
+        let array = Uint8Array.from(atob(b), c => c.charCodeAt(0));
+        return array.buffer;
+    }*/
     makeReq(url){
-        var _ = this;
-        _.request = new XMLHttpRequest();
-        _.request.open('GET', url, true);
-        _.request.responseType = 'arraybuffer';
-        // When loaded decode the data
-        _.request.onload = function () {
+        let _ = this;
+        this.request = new XMLHttpRequest();
+        this.request.addEventListener("load", function(){
+            //_.array2store(this.response, _)
             // decode the data
-            _.context.decodeAudioData(_.request.response, function (buffer) {
+            window.context.decodeAudioData(this.response, function (buffer) {
                 // when the audio is decoded play the sound
                 if (_.firstReq) {
                     _.playSound(buffer);
                 }
-                _.buffers.push(buffer);
+                _.buffers.push(buffer)
                 if(_.buffers.length < _.songs.length)
                     _.loadNext();
             });
-        };
-        _.request.send();
+        })
+        this.request.responseType = 'arraybuffer';
+        this.request.open('GET', url, true);
+        this.request.send();
     }
     load(i){
-        let url = './Content/' + this.songs[i] + '.mp3';
-        this.loadCurr = i;
-        this.makeReq(url);
+        //if(!!window.localStorage.getItem(String(i))){
+            //_.playSound(_.b642array(window.localStorage.getItem(String(i))));
+        //}
+        //else{
+            let url = './Content/' + this.songs[i] + '.mp3';
+            this.loadCurr = i;
+            this.makeReq(url);
+        //}
     }
     loadNext(){
         let self = this;
@@ -92,7 +106,7 @@ var Music = class {
         }
         else {
             self.loadCurr = 0;
-            self.load(self.loadCurr);
+            self.load(0);
         }
     }
     getAverageVolume(array){
