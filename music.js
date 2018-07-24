@@ -93,7 +93,7 @@ var Music = class {
             //_.playSound(_.b642array(window.localStorage.getItem(String(i))));
         //}
         //else{
-            let url = './Content/' + this.songs[i] + '.mp3';
+            let url = './Content/' + this.songs[i] + '.ogg';
             this.loadCurr = i;
             this.makeReq(url);
         //}
