@@ -122,7 +122,7 @@ var Music = class {
     }
     silent_load(){
         let url = './Content/' + this.loadCurr + '.ogg';
-        this.makeReq(url, this.loadCurr);
+        this.makeReq(url, this.loadCurr, false);
     }
     changeSong(){
         let keys = Object.keys(this.buffers);
