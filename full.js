@@ -55,10 +55,9 @@ var Music = class {
         this.draw = '';
         //Set up variables
         this.firstReq = true;
-        this.buffers = [];
-        this.song_ind = 0;
+        this.buffers = {};
+        this.song_id = this.loadCurr = '';
         this.songs = ['never-met', 'still-high', 'dark', 'fuck-boy'];
-        this.loadCurr = 0;
         //Add visibility listener
         document.addEventListener('visibilitychange', ()=>{
             this.gainNode.gain.linearRampToValueAtTime(document.hidden ? .03: .35, window.context.currentTime + (document.hidden ? .75: 0.3) );
@@ -69,7 +68,7 @@ var Music = class {
         this.source = this.duration = this.request = this.songTimeout = '';
         //Start playing music
         this.visualize();
-        this.changeSong();
+        this.load_all();
     }
     visualize(){
         this.draw = requestAnimationFrame(this.visualize.bind(this));
@@ -101,50 +100,45 @@ var Music = class {
             this.firstReq = !1;
         }
     }
-    makeReq(url){
+    makeReq(url, id, callback){
         let _ = this;
         this.request = new XMLHttpRequest();
         this.request.addEventListener("load", function(){
             window.context.decodeAudioData(this.response, function (buffer) {
                 // when the audio is decoded play the sound
-                if (_.firstReq) {
-                    _.playSound(buffer);
-                }
-                _.buffers.push(buffer)
-                if(_.buffers.length < _.songs.length)
-                    _.loadNext();
+                _.buffers[id] = buffer;
+                if(callback){
+                    callback.bind(_)(_.buffers[id]);
+                };
             });
         })
         this.request.responseType = 'arraybuffer';
         this.request.open('GET', url, true);
         this.request.send();
     }
-    load(i){
-        let url = './Content/' + this.songs[i] + '.ogg';
-        this.loadCurr = i;
-        this.makeReq(url);
+    loud_load(){
+        let url = './Content/' + this.song_id + '.ogg';
+        this.makeReq(url, this.song_id, this.playSound);
     }
-    loadNext(){
-        let self = this;
-        this.loadCurr++;
-        if (this.loadCurr < this.songs.length) {
-            self.load(self.loadCurr);
-        }
-        else {
-            self.loadCurr = 0;
-            self.load(0);
-        }
+    silent_load(){
+        let url = './Content/' + this.loadCurr + '.ogg';
+        this.makeReq(url, this.loadCurr);
     }
     changeSong(){
+        let keys = Object.keys(this.buffers);
+        let key= keys[Math.floor(Math.random() * keys.length)]
+        this.playSound(this.buffers[key]);
+    }
+    load_all(){
         let self = this;
-        this.song_ind = Math.floor(Math.random() * self.buffers.length);
-        if (this.firstReq) {
-            self.song_ind = Math.floor(Math.random() * self.songs.length);
-            self.load(self.song_ind);
-        }
-        else {
-            self.playSound(self.buffers[self.song_ind]);
-        }
+        let r = Math.floor(Math.random() * this.songs.length);
+        this.song_id = this.songs[r];
+        this.songs.splice(r, 1);
+        this.loud_load();
+        this.songs.forEach(title=>{
+            this.loadCurr = title;
+            this.silent_load();
+        });
     }
 };
 
