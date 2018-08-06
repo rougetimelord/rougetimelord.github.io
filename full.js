@@ -19,7 +19,7 @@ var addXHR = function () {
         for (let i of linkArray) {
             i.addEventListener('click', e=>{
                 e.preventDefault();
-                swap(a.href);
+                swap(i.href);
             }, false);
         }
     }
