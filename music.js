@@ -21,9 +21,10 @@ var Music = class {
         this.songs = ['never-met', 'still-high', 'dark', 'fuck-boy'];
         //Add visibility listener
         document.addEventListener('visibilitychange', ()=>{
-            this.gainNode.gain.linearRampToValueAtTime(document.hidden ? .03: .35, window.context.currentTime + (document.hidden ? .75: 0.3) );
+            this.gainNode.gain.cancelScheduledValues(window.context.currentTime);
+            this.gainNode.gain.linearRampToValueAtTime(document.hidden ? .03: 0.35, window.context.currentTime + (document.hidden ? 0.75: 0.3) );
             if(document.hidden){
-                this.gainNode.gain.setValueAtTime(.01, window.context.currentTime + 60);
+                this.gainNode.gain.setValueAtTime(0.01, window.context.currentTime + 60);
             }
         });
         this.source = this.duration = this.request = this.songTimeout = '';
