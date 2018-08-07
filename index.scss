@@ -50,6 +50,7 @@ body{
     font-family: 'Roboto', sans-serif;
     overflow: hidden;
     margin: 0;
+    height: 100vh;
 }
 .main{
     position: absolute;
@@ -108,7 +109,10 @@ a{
         }
     }
 }
-@media all and (min-device-width: 0px) and (max-device-width: 1024px){
+.header.long.glitch{
+    margin-right: .25em;
+}
+@media all and (min-width: 0px) and (max-width: 1024px){
     .main{
         top: 5%;
         left: 10%;
