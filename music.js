@@ -18,7 +18,7 @@ var Music = class {
         this.firstReq = true;
         this.buffers = {};
         this.song_id = this.loadCurr = '';
-        this.songs = ['never-met', 'still-high', 'dark', 'fuck-boy'];
+        this.songs = ['dreamy', 'afterparty', 'superstar', 'fuck-boy', 'boy'];
         //Add visibility listener
         document.addEventListener('visibilitychange', ()=>{
             this.gainNode.gain.cancelScheduledValues(window.context.currentTime);
