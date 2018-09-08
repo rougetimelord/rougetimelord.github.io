@@ -65,15 +65,15 @@ var Music = class {
     makeReq(url, id, callback){
         let _ = this;
         this.request = new XMLHttpRequest();
-        this.request.addEventListener("load", function(){
+        this.request.addEventListener('load', function(){
             window.context.decodeAudioData(this.response, function (buffer) {
                 // when the audio is decoded play the sound
                 _.buffers[id] = buffer;
                 if(callback){
                     callback.bind(_)(_.buffers[id]);
-                };
+                }
             });
-        })
+        });
         this.request.responseType = 'arraybuffer';
         this.request.open('GET', url, true);
         this.request.send();
@@ -88,11 +88,10 @@ var Music = class {
     }
     changeSong(){
         let keys = Object.keys(this.buffers);
-        let key= keys[Math.floor(Math.random() * keys.length)]
+        let key= keys[Math.floor(Math.random() * keys.length)];
         this.playSound(this.buffers[key]);
     }
     load_all(){
-        let self = this;
         let r = Math.floor(Math.random() * this.songs.length);
         this.song_id = this.songs[r];
         this.songs.splice(r, 1);
