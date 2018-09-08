@@ -19,6 +19,8 @@ var Music = class {
         this.buffers = {};
         this.song_id = this.loadCurr = '';
         this.songs = ['dreamy', 'afterparty', 'superstar', 'fuck-boy', 'boy'];
+        this.samples = [70];
+        this.sampled_avg = 0;
         //Add visibility listener
         document.addEventListener('visibilitychange', ()=>{
             this.gainNode.gain.cancelScheduledValues(window.context.currentTime);
@@ -40,15 +42,17 @@ var Music = class {
             let sum = arr.reduce(function(a, b) { return a + b; });
             return sum / arr.length;
         };
+        this.sampled_avg = avg(this.samples);
         let display = document.getElementsByClassName('react');
         for (let i of display) {
             i.classList.remove('light');
         }
-        if (avg(array) >= 70) {
+        if (avg(array) >= this.sampled_avg) {
             for (let j of display) {
                 j.classList.add('light');
             }
         }
+        if(this.samples.push(avg(array)) > 10){this.samples.shift();}
     }
     playSound(buffer){
         this.source = window.context.createBufferSource();
