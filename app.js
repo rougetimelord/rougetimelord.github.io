@@ -1,20 +1,25 @@
-var MAINDIV;
+var fill = str =>{
+    let div = document.getElementsByClassName('main')[0];
+    let frag = document.createRange().createContextualFragment(str);
+    let main = frag.querySelector('.main');
+    div.innerHTML = main.innerHTML;
+};
 
-var swap = function (res) {
-    var req = new XMLHttpRequest();
+var swap = res => {
+    let req = new XMLHttpRequest();
     req.open('GET', res, true);
     req.timeout = 4000;
     req.onload = function () {
         if (req.status == 200 || req.status == 304) {
-            MAINDIV.innerHTML = req.responseText;
+            fill(req.responseText);
             addXHR();
         }
     };
     req.send();
 };
 
-var addXHR = function () {
-    var linkArray = document.getElementsByClassName('xhr');
+var addXHR = () => {
+    let linkArray = document.getElementsByClassName('xhr');
     if (linkArray.length != 0) {
         for (let i of linkArray) {
             i.addEventListener('click', e=>{
@@ -26,9 +31,8 @@ var addXHR = function () {
 };
 
 document.addEventListener('DOMContentLoaded', ()=>{
-    MAINDIV = document.getElementsByClassName('main')[0];
     addXHR();
-    var s = new Starfield();
+    let s = new Starfield();
     s.initialise();
     let music = new Music();
     if(window.context.state == 'suspended'){
