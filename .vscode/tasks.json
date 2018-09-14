@@ -17,7 +17,7 @@
     {
         "label": "JS Compile",
         "type": "shell",
-        "command": "Get-ChildItem -Path ./ -Filter '*.js' | Get-Content | Add-Content -Path ./full.js",
+        "command": "rm ./full.js;Get-ChildItem -Path ./ -Filter '*.js' | Get-Content | Add-Content -Path ./full.js",
         "group": {
             "kind": "build",
             "isDefault": true
