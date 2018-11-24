@@ -20,8 +20,8 @@ class Starfield {
         let ddmm = String(date.getDate()) + String(date.getMonth + 1);
         this.meme = (ddmm == "204");
     }
-    //	The main function - initialises the starfield.
-    initialise() {
+    //	The main function - initializes the starfield.
+    initialize() {
         var self = this;
         this.width = window.innerWidth;
         this.height = window.innerHeight;
@@ -49,7 +49,7 @@ class Starfield {
     }
     raf(time) {
         this.update(time);
-        (this.meme) ? this.memedraw() : this.draw();
+        (this.meme) ? this.memeDraw() : this.draw();
         requestAnimationFrame(this.raf.bind(this));
     }
     update(t) {
@@ -79,7 +79,7 @@ class Starfield {
         }
         return;
     }
-    memedraw(){
+    memeDraw(){
         //	Draw the background.
         this.ctx.fillStyle = "#000000";
         this.ctx.fillRect(0, 0, this.width, this.height);
@@ -101,4 +101,4 @@ class Star {
 }
 
 window['Starfield'] = Starfield;
-Starfield.prototype['initialise'] = Starfield.prototype.initialise;
+Starfield.prototype['initialize'] = Starfield.prototype.initialize;

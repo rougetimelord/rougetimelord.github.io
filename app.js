@@ -33,7 +33,7 @@ var addXHR = () => {
 document.addEventListener('DOMContentLoaded', ()=>{
     addXHR();
     let s = new Starfield();
-    s.initialise();
+    s.initialize();
     let music = new Music();
     if(window.context.state == 'suspended'){
         window.context.close();
