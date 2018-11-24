@@ -19,6 +19,7 @@ class Starfield {
         let date = new Date();
         let ddmm = String(date.getDate()) + String(date.getMonth + 1);
         this.meme = (ddmm == "204");
+        this.image = null;
     }
     //	The main function - initializes the starfield.
     initialize() {
