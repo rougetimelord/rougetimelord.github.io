@@ -36,8 +36,8 @@ document.addEventListener('DOMContentLoaded', ()=>{
     s.initialize();
     let music = new Music();
     if(window.context.state == 'suspended'){
-        window.context.close();
-        document.addEventListener('click', ()=>{if(window.context.state!='running'){music = new Music();}});
+        let f = ()=>{music.setup(); f=null};
+        document.addEventListener("click", f, {once: !0});
     }
 }
 );
