@@ -23,7 +23,7 @@ var Music = class {
         //If it spawns in a playable state play through it
         if(window.context.state=='running'){this.setup();}
         //Otherwise load everything and cache
-        else{return this.load_all();}
+        else{this.load_all();return;}
     }
 
     setup(){
