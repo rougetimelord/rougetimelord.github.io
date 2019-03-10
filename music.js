@@ -34,7 +34,7 @@ var Music = class {
 
         //Set up gain node
         this.gainNode = window.context.createGain();
-        this.gainNode.gain.setValueAtTime(0.35, window.context.currentTime);
+        this.gainNode.gain.setValueAtTime(0.1, window.context.currentTime);
 
         //Connect nodes
         this.gainNode.connect(window.context.destination);
@@ -43,7 +43,7 @@ var Music = class {
         //Add visibility listener
         document.addEventListener('visibilitychange', ()=>{
             this.gainNode.gain.cancelScheduledValues(window.context.currentTime);
-            this.gainNode.gain.linearRampToValueAtTime(document.hidden ? .01: 0.35, window.context.currentTime + (document.hidden ? 0.75: 0.3) );
+            this.gainNode.gain.linearRampToValueAtTime(document.hidden ? .01: 0.1, window.context.currentTime + (document.hidden ? 0.75: 0.3) );
             if(document.hidden){
                 this.gainNode.gain.setValueAtTime(0, window.context.currentTime + 60);
             }
