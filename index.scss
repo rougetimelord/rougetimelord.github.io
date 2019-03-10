@@ -138,6 +138,7 @@ a{
   grid-template-columns: 1fr 1fr;
   grid-gap: inherit;
   transform: translate(-20%, 0);
+  margin-bottom: 1em;
 }
 .gap12{
   grid-gap: 12px;
@@ -148,6 +149,9 @@ a{
 .art_asset{
   grid-row: auto;
   grid-column: auto;
+}
+.img_asset{
+  background: rgba($color: #fff, $alpha: 0.3)
 }
 .art_subtitle{
   text-align: center;
