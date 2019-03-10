@@ -135,8 +135,7 @@ a{
 }
 .grid_wrapper{
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  grid-gap: inherit;
+  grid-template-columns: 0.5fr 0.5fr;
   transform: translate(-20%, 0);
   margin-bottom: 1em;
 }
@@ -158,6 +157,9 @@ a{
   margin: 0;
 }
 @media all and (min-width: 0px) and (max-width: 1024px){
+    body{
+      overflow-y: auto; 
+    }
     .main{
         top: 5%;
         left: 10%;
@@ -167,7 +169,12 @@ a{
         margin-right: 15%;
     }
     .grid_wrapper{
-      transform: translate(0, 0);
+      transform: translate(-10%, 0);
+      grid-gap: 0;
+    }
+    .img_asset{
+      width: 60vw;
+      height: auto;
     }
 }
 .glitch{
