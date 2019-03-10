@@ -110,7 +110,7 @@ a{
 }
 .text{
     text-align: left;
-    font-size: 1em;
+    font-size: 1.5em;
 }
 .wrap{
     margin:0px;
@@ -130,14 +130,37 @@ a{
 .header.long.glitch{
     margin-right: .25em;
 }
+.grid_wrapper{
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-gap: inherit;
+  transform: translate(-20%, 0);
+}
+.gap12{
+  grid-gap: 12px;
+}
+.gap30{
+  grid-gap: 30%;
+}
+.art_asset{
+  grid-row: auto;
+  grid-column: auto;
+}
+.art_subtitle{
+  text-align: center;
+  margin: 0;
+}
 @media all and (min-width: 0px) and (max-width: 1024px){
     .main{
         top: 5%;
         left: 10%;
     }
     .text{
-        font-size: 1.5em;
+        font-size: 2.25em;
         margin-right: 15%;
+    }
+    .grid_wrapper{
+      transform: translate(0, 0);
     }
 }
 .glitch{
