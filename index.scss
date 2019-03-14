@@ -72,8 +72,8 @@ body{
 }
 .main{
     position: absolute;
-    top: 30%;
-    left: 20%;
+    top: 30vh;
+    left: 20vw;
     z-index: 1;
 }
 $link: #ccc;
@@ -130,51 +130,39 @@ a{
 .header.long.glitch{
     margin-right: .25em;
 }
-.grid_title{
-  margin-bottom: 0;
-}
-.grid_wrapper{
-  display: grid;
-  grid-template-columns: 0.5fr 0.5fr;
-  transform: translate(-20%, 0);
-  margin-bottom: 1em;
-}
-.gap12{
-  grid-gap: 12px;
-}
-.gap20{
-  grid-gap: 20vw;
+.flex_container{
+  display: flex;
+  flex-wrap: wrap;
+  max-width: 80vw;
+  height: 30vh;
 }
 .art_asset{
-  grid-row: auto;
-  grid-column: auto;
+  max-width: 50%;
+  max-height: 100%;
+  text-align: center;
 }
 .img_asset{
-  background: rgba($color: #fff, $alpha: 0.3)
-}
-.art_subtitle{
-  text-align: center;
-  margin: 0;
+  max-width: 100%;
+  max-height: 100%;
+  background: rgba($light, 0.3);
 }
 @media all and (min-width: 0px) and (max-width: 1024px){
     body{
       overflow-y: auto; 
     }
     .main{
-        top: 5%;
-        left: 10%;
+        top: 5vh;
+        left: 10vw;
     }
     .text{
         font-size: 2.25em;
         margin-right: 15%;
     }
-    .grid_wrapper{
-      transform: translate(-10%, 0);
-      grid-gap: 0;
+    .flex_container{
+      max-width: 90vw;
     }
-    .img_asset{
-      width: 60vw;
-      height: auto;
+    .art_asset{
+      max-width: 100%;
     }
 }
 .glitch{
