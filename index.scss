@@ -66,7 +66,8 @@
 body{
     background-color: #000;
     font-family: 'Roboto', sans-serif;
-    overflow: hidden;
+    overflow-x: hidden;
+    overflow-y: auto;
     margin: 0;
     height: 100vh;
 }
@@ -130,22 +131,42 @@ a{
 .header.long.glitch{
     margin-right: .25em;
 }
-.flex_container{
-  display: flex;
-  flex-wrap: wrap;
-  max-width: 80vw;
-  height: 30vh;
+
+.grid {
+  display: grid;
+  margin: 3rem 0 3rem 0;
+
+  grid-template-columns: repeat(auto-fit, minmax(20rem, 1fr));
+
+  &.gap12 {
+    grid-gap: 5px;
+  }
+
+  .card{
+    background: rgba($color: #ccc, $alpha: 0.5);
+    color: #fff;
+    
+    transition: box-shadow .3s ease-in-out, transform .3s ease-in-out;
+
+    box-shadow: #333333 2px 2px 2px 0px;
+
+    &:hover {
+      transform: translateY(-1rem);
+      box-shadow: #333333 5px 5px 5px 0px;
+    }
+
+    img {
+      width: 100%;
+    }
+
+    p{
+      background-color: rgba($color: #000000, $alpha: 0.8);
+      margin: 0;
+      padding: 3rem 0 3rem 0;
+    }
+  }
 }
-.art_asset{
-  max-width: 50%;
-  max-height: 100%;
-  text-align: center;
-}
-.img_asset{
-  max-width: 100%;
-  max-height: 100%;
-  background: rgba($light, 0.3);
-}
+
 @media all and (min-width: 0px) and (max-width: 1024px){
     body{
       overflow-y: auto; 
@@ -157,12 +178,6 @@ a{
     .text{
         font-size: 2.25em;
         margin-right: 15%;
-    }
-    .flex_container{
-      max-width: 90vw;
-    }
-    .art_asset{
-      max-width: 100%;
     }
 }
 .glitch{
