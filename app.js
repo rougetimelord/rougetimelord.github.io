@@ -34,10 +34,10 @@ document.addEventListener('DOMContentLoaded', ()=>{
     addXHR();
     let s = new Starfield();
     s.initialize();
-    /* let music = new Music();
+    let music = new Music();
     if(window.context.state == 'suspended'){
         let f = ()=>{music.setup(); f=null};
         document.addEventListener("click", f, {once: !0});
-    } */
+    }
 }
 );
