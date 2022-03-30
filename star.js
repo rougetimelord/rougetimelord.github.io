@@ -5,6 +5,9 @@
 //	Define the starfield class.
 class Starfield {
     constructor() {
+        /**
+         * Constructor for the starfield.
+         */
         this.containerDiv = document.getElementById('back');
         this.canvas = document.createElement('canvas');
         this.containerDiv.appendChild(this.canvas);
@@ -19,10 +22,13 @@ class Starfield {
         let date = new Date();
         let ddmm = String(date.getDate()) + String(date.getMonth + 1);
         this.meme = (ddmm == "204");
-        this.image = null;
+        this.image = new Image();
+        this.image.src = "./Content/meme.png";
     }
-    //	The main function - initializes the starfield.
     initialize() {
+        /**
+         * Starts the starfield effect.
+         */
         var self = this;
         this.width = window.innerWidth;
         this.height = window.innerHeight;
@@ -41,41 +47,63 @@ class Starfield {
             stars[i] = new Star(Math.random() * this.width, Math.random() * this.height, Math.floor(Math.random() * 7) + 10, (Math.random() * this.maxVelocity) + this.minVelocity);
         }
         this.stars = stars;
-        if(this.meme){
-            this.image = new Image();
-            this.image.src = "./Content/meme.png";
-        }
         //	Start the timer.
         requestAnimationFrame(this.raf.bind(this));
     }
     raf(time) {
+        /**
+         * Animation frame function.
+         * 
+         * @param time The time of the frame.
+         */
         this.update(time);
         (this.meme) ? this.memeDraw() : this.draw();
         requestAnimationFrame(this.raf.bind(this));
     }
     update(t) {
+        /**
+         * Updates stars in the starfield.
+         *
+         * @param t The time of the frame.
+         */
         let dt = (t - this.old)/1000;
         dt = (dt >= 5) ? 5 : dt;
+        let glitchDt = (t - this.oldGlitch) / 1000;
         for (var i = 0; i < this.stars.length; i++) {
             var star = this.stars[i];
             star.y += dt * star.velocity;
+            if (glitchDt > 0.75) {star.offset = ((Math.random() * 2) - 1) * star.size / 3;}
             //	If the star has moved from the bottom of the screen, spawn it at the top.
             if (star.y > this.height) {
-                this.stars[i] = new Star(Math.random() * this.width, 0, Math.random() * 3 + 7, (Math.random() * this.maxVelocity) + this.minVelocity);
+                let size = Math.random() * 4.5 + 7
+                this.stars[i] = new Star(Math.random() * this.width, -(size + 10), size, (Math.random() * this.maxVelocity) + this.minVelocity);
             }
         }
         this.old = t;
+        console.log(this.oldGlitch, glitchDt);
+        if (glitchDt > 1.5 || this.oldGlitch === undefined) {
+            this.oldGlitch = t;
+        }
         return;
     }
     draw() {
+        /**
+         * Draws the starfield.
+         */
         //	Draw the background.
         this.ctx.fillStyle = '#000000';
         this.ctx.fillRect(0, 0, this.width, this.height);
-        //	Draw stars.
-        this.ctx.fillStyle = '#ffffff';
+        //	Draw the stars.
         for (var i = 0; i < this.stars.length; i++) {
             var star = this.stars[i];
-            this.ctx.font = star.size + "px 'Roboto', sans-serif";
+            this.ctx.font = star.size + "px 'Roboto', sans-serif";            
+
+            this.ctx.fillStyle = '#ff0000';
+            this.ctx.fillText("*", star.x + star.offset, star.y);
+            this.ctx.fillStyle = '#0000ff';
+            this.ctx.fillText("*", star.x - star.offset, star.y);
+
+            this.ctx.fillStyle = '#ffffff';
             this.ctx.fillText("*", star.x, star.y);
         }
         return;
